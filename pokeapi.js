@@ -6,4 +6,7 @@ creamos un map para limpiar la informacion
 Pintar la lista de elementos en el html 
 creamos init para llamar a la funcion
 
+...
 */
+
+
