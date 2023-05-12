@@ -1,11 +1,15 @@
 /* 
 Hacer variable del id "podekex"
 Crear la funcion fetch para tener la info de la API
-hacemos un bucle for para indicar endpoints
+hacemos un bucle for 
 creamos un map para limpiar la informacion 
-Pintar la lista de elementos en el html 
 creamos init para llamar a la funcion
-
+Pintar la lista de elementos en el html 
+crear el filtro
+crear nuevo array de fav
+crear el btn
+pintar el boton 
+hacer que funcione el boton 
 ...
 
 */
@@ -15,7 +19,7 @@ const input$$ = document.querySelector(".search");
 
 const arrayPokemon = []; 
 
-// funcion async
+// funcion async 1º
 const getPokeApi = async () => {  
     for (let i = 1; i <= 150; i++) {  
         const response = await fetch ("https://pokeapi.co/api/v2/pokemon/" + i);
@@ -24,9 +28,8 @@ const getPokeApi = async () => {
     };
     return arrayPokemon;
 };
-//getPokeApi().then(() => console.log(arrayPokemon)); // aqui compruebo que me regrese datos
 
-// Mapeo
+// Mapeo 2º
 const mapPokeApi = (pokeApiSinMapear) => {
     return pokeApiSinMapear.map((pokemon) => ({
     id: pokemon.id,
@@ -36,32 +39,63 @@ const mapPokeApi = (pokeApiSinMapear) => {
     }));
 };
 
-// pinto en el HTML
+// pinto en el HTML 4º
 const drawPokemons = (pokemons) => {
     listPokedex$$.innerHTML="";
 
     for (const pokemon of pokemons){
         let li$$ = document.createElement("li");
-        li$$.classList.add("card")
+        li$$.classList.add("card");
         listPokedex$$.appendChild(li$$);
+
+        let id$$ = document.createElement ("p");
+        id$$.innerHTML = pokemon.id;
+        li$$.appendChild(id$$);
 
         let newDiv$$ = document.createElement("div");
         newDiv$$.innerHTML = pokemon.name;
+        newDiv$$.classList.add("card-title");
         li$$.appendChild(newDiv$$);
 
         let img$$ = document.createElement("img");
         img$$.setAttribute("src", pokemon.image);
         img$$.setAttribute("alt", pokemon.name);
+        img$$.classList.add("card-image");
         li$$.appendChild(img$$);
-        
+
+        let type$$ = document.createElement ("h3");
+        type$$.textContent = pokemon.type; 
+        type$$.classList.add("card-subtitle");
+        li$$.appendChild(type$$);
     }
 };
 
-// funcion init
+
+//listener / pinto input 
+const drawInput = (pokemons) => {
+    const input$$ = document.querySelector("input");
+    input$$.addEventListener ("input", ()=> 
+        searchPokemon(pokemons, input$$.value)
+    );
+};
+
+//Search / filtro 5º
+const searchPokemon = (pokemons, filtro) =>{
+    let filteredPokemons = pokemons.filter ((pokemon)=> 
+    pokemon.name.toLowerCase().includes(filtro.toLowerCase())
+    );
+
+    drawPokemons(filteredPokemons);
+};
+
+
+// funcion init 3º
 const init = async () => {
     const pokemon = await getPokeApi();
-    //   console.log(characters);
+    //console.log(pokemon);
     const mappedPokeApi = mapPokeApi(pokemon);
     drawPokemons(mappedPokeApi);
+    drawInput(mappedPokeApi) // new
 };
 init();
+

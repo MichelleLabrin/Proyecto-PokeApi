@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(99, 0, 0);
+    background-color: rgb(107, 0, 0);
     margin: 0;
     font-family: rubik;
     color: rgb(255, 255, 255);
@@ -30,7 +30,7 @@ h1 {
 }
 .card {
     list-style: none;
-    padding: 40px;
+    padding: 4px;
     background-color: #ffffffb2;
     color: #222;
     text-align: center;
@@ -38,18 +38,20 @@ h1 {
 }
 .card-title {
     text-transform: uppercase;
-    font-size: 32px;
+    font-size: 20px;
     font-weight: normal;
     margin-bottom: 0;
 }
 .card-subtitle {
     font-weight: lighter;
     color: #666;
-    margin-top: 5px;
+    margin-top: 2px;
+    text-transform: uppercase;
 }
 .card-image {
     height: 180px;
 }
+
 #pokedex {
     padding-inline-start: 0;
     display: grid;
