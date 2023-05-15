@@ -64,6 +64,25 @@ const drawPokemons = (pokemons) => {
         btnFav$$.setAttribute("data-id", pokemon.id);
         btnFav$$.classList.add("far", "fa-star");
         li$$.appendChild(btnFav$$);
+
+        // 8 creo el listener
+        btnFav$$.addEventListener("click", function(event) {
+            const favId = btnFav$$.getAttribute("data-id");
+            const findPosition = favoritos.indexOf(favId);
+                
+            if (findPosition === -1) {
+                btnFav$$.classList.remove("far");
+                btnFav$$.classList.add("fas");
+                favoritos.push(favId);
+                console.log(`Agregado a favoritos: ${favId}`);
+                    } else {
+                        btnFav$$.classList.remove("fas");
+                        btnFav$$.classList.add("far");
+                        favoritos.splice(findPosition, 1);
+                        console.log(`Eliminado de favoritos: ${favId}`);
+                    }
+                    console.log(favoritos);
+        });
         
         let newDiv$$ = document.createElement("div");
         newDiv$$.innerHTML = pokemon.name;
