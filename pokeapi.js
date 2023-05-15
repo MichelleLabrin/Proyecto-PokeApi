@@ -13,11 +13,17 @@ hacer que funcione el boton
 ...
 
 */
+
+// All Query
 const divContainer$$ = document.querySelector(".container");
 const listPokedex$$ = document.querySelector("#pokedex");
 const input$$ = document.querySelector(".search");
 
+
+
+
 const arrayPokemon = []; 
+const favoritos = [];
 
 // funcion async 1º
 const getPokeApi = async () => {  
@@ -39,6 +45,7 @@ const mapPokeApi = (pokeApiSinMapear) => {
     }));
 };
 
+
 // pinto en el HTML 4º
 const drawPokemons = (pokemons) => {
     listPokedex$$.innerHTML="";
@@ -48,10 +55,16 @@ const drawPokemons = (pokemons) => {
         li$$.classList.add("card");
         listPokedex$$.appendChild(li$$);
 
-        let id$$ = document.createElement ("p");
+        /*let id$$ = document.createElement ("p");
         id$$.innerHTML = pokemon.id;
-        li$$.appendChild(id$$);
+        li$$.appendChild(id$$);*/
 
+        // 7 creo el boton 
+        let btnFav$$ = document.createElement("div");
+        btnFav$$.setAttribute("data-id", pokemon.id);
+        btnFav$$.classList.add("far", "fa-star");
+        li$$.appendChild(btnFav$$);
+        
         let newDiv$$ = document.createElement("div");
         newDiv$$.innerHTML = pokemon.name;
         newDiv$$.classList.add("card-title");
@@ -71,7 +84,8 @@ const drawPokemons = (pokemons) => {
 };
 
 
-//listener / pinto input 
+
+//listener / pinto input 6º
 const drawInput = (pokemons) => {
     const input$$ = document.querySelector("input");
     input$$.addEventListener ("input", ()=> 
@@ -89,13 +103,17 @@ const searchPokemon = (pokemons, filtro) =>{
 };
 
 
+
+
 // funcion init 3º
+
 const init = async () => {
     const pokemon = await getPokeApi();
-    //console.log(pokemon);
+    
     const mappedPokeApi = mapPokeApi(pokemon);
     drawPokemons(mappedPokeApi);
-    drawInput(mappedPokeApi) // new
+    drawInput(mappedPokeApi) 
 };
 init();
+
 
