@@ -18,12 +18,11 @@ hacer que funcione el boton
 const divContainer$$ = document.querySelector(".container");
 const listPokedex$$ = document.querySelector("#pokedex");
 const input$$ = document.querySelector(".search");
-
-
-
+const favoritosDiv$$ = document.querySelector(".favoritosDiv");
 
 const arrayPokemon = []; 
 const favoritos = [];
+//console.log(favoritos);
 
 // funcion async 1º
 const getPokeApi = async () => {  
@@ -34,6 +33,7 @@ const getPokeApi = async () => {
     };
     return arrayPokemon;
 };
+
 
 // Mapeo 2º
 const mapPokeApi = (pokeApiSinMapear) => {
@@ -46,7 +46,7 @@ const mapPokeApi = (pokeApiSinMapear) => {
 };
 
 
-// pinto en el HTML 4º
+// pinto en el HTML los pokemones 4º
 const drawPokemons = (pokemons) => {
     listPokedex$$.innerHTML="";
 
@@ -65,25 +65,10 @@ const drawPokemons = (pokemons) => {
         btnFav$$.classList.add("far", "fa-star");
         li$$.appendChild(btnFav$$);
 
-        // 8 creo el listener
-        btnFav$$.addEventListener("click", function(event) {
-            const favId = btnFav$$.getAttribute("data-id");
-            const findPosition = favoritos.indexOf(favId);
-                
-            if (findPosition === -1) {
-                btnFav$$.classList.remove("far");
-                btnFav$$.classList.add("fas");
-                favoritos.push(favId);
-                console.log(`Agregado a favoritos: ${favId}`);
-                    } else {
-                        btnFav$$.classList.remove("fas");
-                        btnFav$$.classList.add("far");
-                        favoritos.splice(findPosition, 1);
-                        console.log(`Eliminado de favoritos: ${favId}`);
-                    }
-                    console.log(favoritos);
+        btnFav$$.addEventListener("click", () => {
+            botonFavorite(pokemon);
         });
-        
+
         let newDiv$$ = document.createElement("div");
         newDiv$$.innerHTML = pokemon.name;
         newDiv$$.classList.add("card-title");
@@ -103,6 +88,44 @@ const drawPokemons = (pokemons) => {
 };
 
 
+// pinto los favoritos
+const renderFav = () => {
+    favoritosDiv$$.innerHTML = "";
+    
+    for (const favPoke of favoritos) {
+        const pokemon = arrayPokemon.find((p) => p.id === favPoke);
+
+        if (pokemon) {
+            favoritosDiv$$.innerHTML += `
+                <div>
+                    <h2>${pokemon.name}</h2>
+                    <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
+                </div>
+            `;
+        }
+    }
+};
+
+// Boton de favorito con 
+const botonFavorite = (pokemon) => {
+    const favId = pokemon.id;
+    const findPosition = favoritos.indexOf(favId);
+    const btnFav$$ = document.querySelector(`[data-id="${pokemon.id}"]`);
+
+    if (findPosition === -1) {
+        favoritos.push(favId);
+        btnFav$$.classList.remove("far");
+        btnFav$$.classList.add("fas");
+        console.log(`Agregado a favoritos: ${favId}`);
+    } else {
+        favoritos.splice(findPosition, 1);
+        btnFav$$.classList.remove("fas");
+        btnFav$$.classList.add("far");
+        console.log(`Eliminado de favoritos: ${favId}`);
+    }
+
+    renderFav();
+};
 
 //listener / pinto input 6º
 const drawInput = (pokemons) => {
@@ -111,6 +134,7 @@ const drawInput = (pokemons) => {
         searchPokemon(pokemons, input$$.value)
     );
 };
+
 
 //Search / filtro 5º
 const searchPokemon = (pokemons, filtro) =>{
@@ -122,17 +146,13 @@ const searchPokemon = (pokemons, filtro) =>{
 };
 
 
-
-
 // funcion init 3º
-
 const init = async () => {
     const pokemon = await getPokeApi();
     
     const mappedPokeApi = mapPokeApi(pokemon);
     drawPokemons(mappedPokeApi);
-    drawInput(mappedPokeApi) 
+    drawInput(mappedPokeApi);
+    renderFav();
 };
 init();
-
-
