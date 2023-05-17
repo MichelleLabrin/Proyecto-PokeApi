@@ -40,7 +40,7 @@ const mapPokeApi = (pokeApiSinMapear) => {
     return pokeApiSinMapear.map((pokemon) => ({
     id: pokemon.id,
     name: pokemon.name,
-    image: pokemon.sprites['front_default'],
+    image: pokemon.sprites.other.home['front_default'],
     type: pokemon.types.map((type) => type.type.name).join(`, `),
     }));
 };
