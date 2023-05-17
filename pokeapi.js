@@ -21,7 +21,7 @@ const input$$ = document.querySelector(".search");
 const favoritosDiv$$ = document.querySelector(".favoritosDiv");
 
 const arrayPokemon = []; 
-const favoritos = [];
+let favoritos = [];
 //console.log(favoritos);
 
 // funcion async 1º
@@ -124,6 +124,8 @@ const botonFavorite = (pokemon) => {
         console.log(`Eliminado de favoritos: ${favId}`);
     }
 
+    localStorage.setItem("ObjetoFav", JSON.stringify(favoritos)) // new
+
     renderFav();
 };
 
@@ -148,6 +150,14 @@ const searchPokemon = (pokemons, filtro) =>{
 
 // funcion init 3º
 const init = async () => {
+
+        //new
+        const getLocal = JSON.parse(localStorage.getItem("ObjetoFav"))
+
+        if (getLocal){
+            favoritos = getLocal;
+        }  //new
+
     const pokemon = await getPokeApi();
     
     const mappedPokeApi = mapPokeApi(pokemon);

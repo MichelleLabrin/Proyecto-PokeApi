@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(215, 215, 215);
+    background-image: linear-gradient(rgb(215, 215, 215) , rgb(59, 2, 2));
     margin: 0;
     font-family: rubik;
     color: rgb(126, 0, 0);
@@ -38,7 +38,6 @@ font-size: 20px;
 .container {
     padding: 40px;
     margin: 0 auto;
-
 }
 
 .search {
